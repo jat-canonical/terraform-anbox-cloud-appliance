@@ -1,0 +1,8 @@
+#cloud-config
+ssh_import_id:
+%{ for id in ssh_import_ids ~}
+- ${id}
+%{ endfor }
+
+users:
+  - default
