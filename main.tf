@@ -122,10 +122,15 @@ resource "terraform_data" "setup_appliance" {
     inline = [
       "sudo pro attach ${var.ua_token}",
       "sudo pro enable anbox-cloud --access-only",
-      "sudo apt update && sudo apt install -y linux-modules-extra-$(uname -r)",
+      // Anbox prepare script already does it
+      // "sudo apt update && sudo apt install -y linux-modules-extra-$(uname -r)",
       "sudo snap install anbox-cloud-appliance --channel ${var.channel}",
       "sudo anbox-cloud-appliance init --auto",
       "sudo amc config set images.version_lockstep false",
+      "sh -c 'anbox-cloud-appliance prepare-node-script | sudo bash -ex'",
+      "sudo snap install --candidate --classic parca-agent",
+      "sudo snap set parca-agent remote-store-bearer-token=${var.parca_token}",
+      "sudo snap start --enable parca-agent",
     ]
   }
 }

@@ -8,6 +8,11 @@ variable "instance_type" {
   default = "g5g.xlarge"
 }
 
+variable "parca_token" {
+  type     = string
+  nullable = false
+}
+
 variable "ua_token" {
   type     = string
   nullable = false
