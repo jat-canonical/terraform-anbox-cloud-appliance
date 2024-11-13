@@ -108,6 +108,11 @@ resource "aws_instance" "appliance" {
   tags = {
     Name = "AnboxCloudAppliance"
   }
+
+  root_block_device {
+    volume_size = "150"
+    volume_type = "gp2"
+  }
 }
 
 resource "terraform_data" "setup_appliance" {
@@ -128,7 +133,7 @@ resource "terraform_data" "setup_appliance" {
       "sudo anbox-cloud-appliance init --auto",
       "sudo amc config set images.version_lockstep false",
       "sh -c 'anbox-cloud-appliance prepare-node-script | sudo bash -ex'",
-      "sudo snap install --candidate --classic parca-agent",
+      "sudo snap install --edge --classic parca-agent",
       "sudo snap set parca-agent remote-store-bearer-token=${var.parca_token}",
       "sudo snap start --enable parca-agent",
     ]
